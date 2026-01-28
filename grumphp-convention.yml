@@ -1,0 +1,203 @@
+parameters:
+    # General
+    root_conventions_dir: vendor/phpro/magento-conventions/configs/
+    phpstan_file: phpstan.neon
+    phpcs_file: .php-cs-fixer.php
+
+    # PHPSTAN
+    phpstan.autoload_file: ~
+    phpstan.configuration: '%root_conventions_dir%%phpstan_file%'
+    phpstan.level: 5
+    phpstan.triggered_by: ['php']
+    phpstan.memory_limit: "-1"
+    phpstan.use_grumphp_paths: true
+    phpstan.ignore_patterns:
+        - "/Test/"
+        - "/Setup/"
+        - "pub/"
+
+    # PHPCSFIXER
+    phpcsfixer.allow_risky: ~
+    phpcsfixer.cache_file: ~
+    phpcsfixer.config: '%root_conventions_dir%%phpcs_file%'
+    phpcsfixer.rules: []
+    phpcsfixer.using_cache: ~
+    phpcsfixer.config_contains_finder: true
+    phpcsfixer.verbose: true
+    phpcsfixer.diff: false
+    phpcsfixer.triggered_by: ['php']
+
+    # PHPCS
+    phpcs.standard: [Magento2, PSR2]
+    phpcs.severity: ~
+    phpcs.warning_severity: ~
+    phpcs.error_severity: ~
+    phpcs.whitelist_patterns:
+        - /^app\/code\/(.*)/
+    phpcs.ignore_patterns:
+        - "Test/Unit"
+        - "Setup/Patch/Data"
+        - "Setup/Upgrade"
+        - "Setup/Install"
+    phpcs.exclude:
+        - Magento2.Functions.StaticFunction
+        - Magento2.Exceptions.DirectThrow
+        - Magento2.Exceptions.ThrowCatch
+        - Magento2.Commenting.ClassAndInterfacePHPDocFormatting
+        - Magento2.Commenting.ClassPropertyPHPDocFormatting
+        - Magento2.Commenting.ConstantsPHPDocFormatting
+        - Magento2.Annotation.MethodAnnotationStructure
+        - Magento2.Annotation.MethodArguments
+    phpcs.triggered_by: [php]
+
+    # GIT
+    git.project: PROJECT
+    git_commit_message.matchers:
+        - '/%git.project%-([0-9]*)/'
+    git_commit_message.max_subject_width: 70
+    git_commit_message.max_body_width: 80
+    git_commit_message.case_insensitive: true
+    git_commit_message.multiline: true
+    git_branch_name.blacklist:
+        - "development"
+        - "production"
+        - "staging"
+        - "master"
+    git_branch_name.whitelist:
+        - '/(hotfix|bugfix|feature|task)\/%git.project%-([a-z|0-9]+)/'
+        - '/(release|epic)\/[a-z|0-9]+/'
+    git_blacklist.keywords:
+        - "ObjectManager::getInstance"
+        - "_objectManager"
+        - "ObjectManagerInterface"
+        - "_GET\\["
+        - "_POST\\["
+        - "_REQUEST\\["
+        - "console.log("
+        - "die("
+        - "die;"
+        - "exit\\("
+        - "exit;"
+        - "phpinfo"
+        - "phpinfo\\("
+        - "print_r\\("
+        - "var_dump\\("
+    git_blacklist.triggered_by: ['php', 'js', 'html', 'phtml']
+    git_branch_name.allow_detached_head: true
+
+    # COMPOSER
+    composer.file: ./composer.json
+    composer.no_check_all: false
+    composer.no_check_lock: true
+    composer.no_check_publish: true
+    composer.no_local_repository: true
+    composer.with_dependencies: true
+    composer.strict: false
+
+    # PHPLINT
+    phplint.exclude: [ 'vendor' ]
+    phplint.jobs: ~
+    phplint.short_open_tag: false
+    phplint.ignore_patterns: [ ]
+    phplint.triggered_by: [ 'php', 'phtml' ]
+
+    # PHPUNIT
+    phpunit.config_file: ~
+    phpunit.testsuite: ~
+    phpunit.group: []
+    phpunit.always_execute: true
+    phpunit.order: null
+
+    # FILE SIZE
+    file_size.size: 5M
+    file_size.ignore_patterns: [ ]
+
+    # SECURITYCHECKER_COMPOSERAUDIT
+    securitychecker_composeraudit.format: null
+    securitychecker_composeraudit.locked: true
+    securitychecker_composeraudit.no_dev: false
+    securitychecker_composeraudit.run_always: true
+    securitychecker_composeraudit.working_dir: null
+    securitychecker_composeraudit.abandoned: ignore
+
+    # CLOVER
+    clover_coverage.clover_file: ./.clover.xml
+    clover_coverage.minimum_level: 0
+    clover_coverage.target_level: 100
+
+grumphp:
+    tasks:
+        phpstan:
+            level: '%phpstan.level%'
+            configuration: '%phpstan.configuration%'
+            autoload_file: '%phpstan.autoload_file%'
+            triggered_by: '%phpstan.triggered_by%'
+            memory_limit: '%phpstan.memory_limit%'
+            use_grumphp_paths: '%phpstan.use_grumphp_paths%'
+            ignore_patterns: '%phpstan.ignore_patterns%'
+        phpcsfixer:
+            allow_risky: '%phpcsfixer.allow_risky%'
+            cache_file: '%phpcsfixer.cache_file%'
+            config: '%phpcsfixer.config%'
+            rules: '%phpcsfixer.rules%'
+            using_cache: '%phpcsfixer.using_cache%'
+            config_contains_finder: '%phpcsfixer.config_contains_finder%'
+            verbose: '%phpcsfixer.verbose%'
+            diff: '%phpcsfixer.diff%'
+            triggered_by: '%phpcsfixer.triggered_by%'
+        phpcs:
+            standard: '%phpcs.standard%'
+            severity: '%phpcs.severity%'
+            error_severity: '%phpcs.error_severity%'
+            warning_severity: '%phpcs.warning_severity%'
+            whitelist_patterns: '%phpcs.whitelist_patterns%'
+            ignore_patterns: '%phpcs.ignore_patterns%'
+            exclude: '%phpcs.exclude%'
+            triggered_by: '%phpcs.triggered_by%'
+        phplint:
+            exclude: '%phplint.exclude%'
+            jobs: '%phplint.jobs%'
+            short_open_tag: '%phplint.short_open_tag%'
+            ignore_patterns: '%phplint.ignore_patterns%'
+            triggered_by: '%phplint.triggered_by%'
+        phpunit:
+            config_file: '%phpunit.config_file%'
+            testsuite: '%phpunit.testsuite%'
+            group: '%phpunit.group%'
+            always_execute: '%phpunit.always_execute%'
+            order: '%phpunit.order%'
+        git_commit_message:
+            matchers: '%git_commit_message.matchers%'
+            case_insensitive: '%git_commit_message.case_insensitive%'
+            multiline: '%git_commit_message.multiline%'
+            max_subject_width: '%git_commit_message.max_subject_width%'
+            max_body_width: '%git_commit_message.max_body_width%'
+        git_blacklist:
+            keywords: '%git_blacklist.keywords%'
+            triggered_by: '%git_blacklist.triggered_by%'
+        git_branch_name:
+            whitelist: '%git_branch_name.whitelist%'
+            blacklist: '%git_branch_name.blacklist%'
+            allow_detached_head: '%git_branch_name.allow_detached_head%'
+        composer:
+            file: '%composer.file%'
+            no_check_all: '%composer.no_check_all%'
+            no_check_lock: '%composer.no_check_lock%'
+            no_check_publish: '%composer.no_check_publish%'
+            no_local_repository: '%composer.no_local_repository%'
+            with_dependencies: '%composer.with_dependencies%'
+            strict: '%composer.strict%'
+        file_size:
+            max_size: '%file_size.size%'
+            ignore_patterns: '%file_size.ignore_patterns%'
+        securitychecker_composeraudit:
+            format: '%securitychecker_composeraudit.format%'
+            locked: '%securitychecker_composeraudit.locked%'
+            no_dev: '%securitychecker_composeraudit.no_dev%'
+            run_always: '%securitychecker_composeraudit.run_always%'
+            working_dir: '%securitychecker_composeraudit.working_dir%'
+            abandoned: '%securitychecker_composeraudit.abandoned%'
+        clover_coverage:
+            clover_file: '%clover_coverage.clover_file%'
+            minimum_level: '%clover_coverage.minimum_level%'
+            target_level: '%clover_coverage.target_level%'
