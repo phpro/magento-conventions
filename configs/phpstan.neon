@@ -1,0 +1,20 @@
+parameters:
+    inferPrivatePropertyTypeFromConstructor: true
+    ignoreErrors:
+        - '#(class|type) Magento\\TestFramework#i'
+        - '#(class|type) Magento\\\S*Factory#i'
+        - '#(class|type) \\S*Factory#i'
+        - '#(class|type) \\Factory#i'
+        - '#Parameter .* of method .*__[a-zA-Z]+\(\) has invalid typehint type .*Factory.#i'
+        - '#Parameter .* of method .*__[a-zA-Z]+\(\) has invalid type .*Factory.#i'
+        - '#Property .* has unknown class .*Factory as its type.#i'
+        - '#Parameter .*Attributes of method .*[a-zA-Z]+\(\) has invalid typehint type .*ExtensionInterface.#i'
+        - '#Parameter .*Attributes of method .*[a-zA-Z]+\(\) has invalid type .*ExtensionInterface.#i'
+        - '#expects string, Magento\\Framework\\Phrase given.#i'
+        - '#Call to method create\(\)\ on an unknown class .*Factory.#i'
+        - '#Call to method .*[a-zA-Z]+\(\) on an unknown class .*ExtensionInterface.#i'
+        - '#Call to an undefined method Magento\\Framework\\Event\\Observer::get.*\(\)\.#i'
+        - '#Call to an undefined method Magento\\Framework\\DataObject::.*\(\)\.#i'
+        - '#Class .*ExtensionInterface not found.#i'
+        - '#Property .*Factory has unknown class .*Factory as its type.#i'
+        - '#Constant BP not found.#i'
