@@ -1,4 +1,8 @@
 # Changelog
+## [0.4.1]
+### Fixed
+- Fixed php-cs-fixer config to only search in existing directories
+
 ## [0.4.0]
 ### Added
 - Updated php-cs-fixer finder directories to use both `./app/code` and `./src`
