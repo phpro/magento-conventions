@@ -1,7 +1,7 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->in('./app/code')
+    ->in(['./app/code', './src'])
     ->name(['*.php', '*.phtml']);
 
 return (new PhpCsFixer\Config())

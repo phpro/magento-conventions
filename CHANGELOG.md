@@ -1,4 +1,8 @@
 # Changelog
+## [0.4.0]
+### Added
+- Updated php-cs-fixer finder directories to use both `./app/code` and `./src`
+
 ## [0.3.0]
 ### Added
 - Added ParallelConfig to php-cs-fixer
