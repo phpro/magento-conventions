@@ -1,0 +1,31 @@
+name: lint-package
+
+# Fast signal on every push/PR: lint THIS repo with the repo-agnostic GrumPHP tasks.
+# (the phpcs Magento2 standard needs an app/code tree, which this package does not ship.)
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-package:
+    runs-on: ubuntu-latest
+    env:
+      MAGE_USER: ${{ secrets.MAGE_USER }}
+      MAGE_PASS: ${{ secrets.MAGE_PASS }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer
+      - name: Authenticate repo.magento.com
+        if: ${{ env.MAGE_USER != '' }}
+        run: composer config http-basic.repo.magento.com "$MAGE_USER" "$MAGE_PASS"
+      - run: composer install --prefer-dist --ignore-platform-reqs --no-interaction
+      - run: php ./vendor/bin/grumphp run --no-interaction --tasks=composer,file_size

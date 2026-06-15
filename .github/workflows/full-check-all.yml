@@ -1,0 +1,41 @@
+name: full-check-all
+
+# Full supported matrix: each job creates a real Magento CE project, installs this package
+# against the full dependency tree, and runs GrumPHP against a compliant fixture module.
+# Run manually or on a schedule (each job downloads full Magento CE — expensive).
+# Requires repo secrets MAGE_USER + MAGE_PASS (repo.magento.com keys).
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * 1'   # weekly, Monday 07:00 UTC
+
+jobs:
+  full-check:
+    runs-on: ubuntu-latest
+    name: magento-${{ matrix.magento }}-php${{ matrix.php }}
+    env:
+      MAGE_USER: ${{ secrets.MAGE_USER }}
+      MAGE_PASS: ${{ secrets.MAGE_PASS }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { magento: '2.4.7', php: '8.2' }
+          - { magento: '2.4.7', php: '8.3' }
+          - { magento: '2.4.8', php: '8.3' }
+          - { magento: '2.4.8', php: '8.4' }
+          - { magento: '2.4.9', php: '8.4' }
+          - { magento: '2.4.9', php: '8.5' }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: pcov
+          extensions: bcmath, ctype, curl, dom, gd, iconv, intl, mbstring, pdo_mysql, simplexml, soap, xsl, zip, sockets
+          tools: composer
+      - name: Install + run GrumPHP
+        env:
+          MAGENTO_VERSION: ${{ matrix.magento }}
+        run: bash tests/run-matrix-job.sh

@@ -1,0 +1,5 @@
+imports:
+    - { resource: './vendor/phpro/magento-conventions/grumphp-convention.yml' }
+
+parameters:
+    git.project: QA

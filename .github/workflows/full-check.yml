@@ -1,0 +1,37 @@
+name: full-check
+
+# On-demand single combination: pick a Magento version + PHP version, install the full
+# Magento CE project + this package, and run GrumPHP against a compliant fixture.
+# Requires repo secrets MAGE_USER + MAGE_PASS (repo.magento.com keys).
+
+on:
+  workflow_dispatch:
+    inputs:
+      magento_version:
+        description: 'Magento version (e.g. 2.4.9, or an unreleased one)'
+        default: '2.4.8'
+        required: true
+      php_version:
+        description: 'PHP version'
+        default: '8.3'
+        required: true
+
+jobs:
+  full-check:
+    runs-on: ubuntu-latest
+    name: magento-${{ github.event.inputs.magento_version }}-php${{ github.event.inputs.php_version }}
+    env:
+      MAGE_USER: ${{ secrets.MAGE_USER }}
+      MAGE_PASS: ${{ secrets.MAGE_PASS }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ github.event.inputs.php_version }}
+          coverage: pcov
+          extensions: bcmath, ctype, curl, dom, gd, iconv, intl, mbstring, pdo_mysql, simplexml, soap, xsl, zip, sockets
+          tools: composer
+      - name: Install + run GrumPHP
+        env:
+          MAGENTO_VERSION: ${{ github.event.inputs.magento_version }}
+        run: bash tests/run-matrix-job.sh

@@ -1,0 +1,30 @@
+name: compatibility-simulation
+
+# Auth-free dependency-resolution simulation: which PHP versions resolve and which QA tool
+# versions Composer would pick. No install, no Magento download. Scheduled so new QA-tool /
+# coding-standard releases are caught automatically.
+
+on:
+  workflow_dispatch:
+    inputs:
+      php_versions:
+        description: 'Space-separated PHP versions to probe'
+        default: '8.2 8.3 8.4 8.5'
+        required: false
+  schedule:
+    - cron: '0 6 * * 1'   # weekly, Monday 06:00 UTC
+
+jobs:
+  compatibility-simulation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer
+      - name: Simulate resolution
+        env:
+          CHECK_PHP_VERSIONS: ${{ github.event.inputs.php_versions || '8.2 8.3 8.4 8.5' }}
+        run: bash tests/check-compatibility.sh

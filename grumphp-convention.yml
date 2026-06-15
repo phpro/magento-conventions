@@ -48,6 +48,9 @@ parameters:
         - Magento2.Commenting.ConstantsPHPDocFormatting
         - Magento2.Annotation.MethodAnnotationStructure
         - Magento2.Annotation.MethodArguments
+        # Allow `final` classes; Magento prohibits final for plugin/proxy extensibility,
+        # but the PHPro convention permits it.
+        - Magento2.PHP.FinalImplementation
     phpcs.triggered_by: [php]
 
     # GIT
@@ -73,15 +76,17 @@ parameters:
         - "_GET\\["
         - "_POST\\["
         - "_REQUEST\\["
+        # git grep uses POSIX basic regex: literal "(" is unescaped ("\(" is a group and
+        # errors as "Unmatched \("). Literal "[" stays escaped above ("\[").
         - "console.log("
         - "die("
         - "die;"
-        - "exit\\("
+        - "exit("
         - "exit;"
         - "phpinfo"
-        - "phpinfo\\("
-        - "print_r\\("
-        - "var_dump\\("
+        - "phpinfo("
+        - "print_r("
+        - "var_dump("
     git_blacklist.triggered_by: ['php', 'js', 'html', 'phtml']
     git_branch_name.allow_detached_head: true
 
