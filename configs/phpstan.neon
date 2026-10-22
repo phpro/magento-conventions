@@ -1,5 +1,6 @@
 parameters:
     inferPrivatePropertyTypeFromConstructor: true
+    treatPhpDocTypesAsCertain: false
     ignoreErrors:
         - '#(class|type) Magento\\TestFramework#i'
         - '#(class|type) Magento\\\S*Factory#i'

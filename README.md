@@ -27,7 +27,7 @@ parameters:
 | **phpcs.warning_severity** | ~ | Warning severity level |
 | **phpcs.error_severity** | ~ | Error severity level |
 | **phpcs.whitelist_patterns** | [ '/^app\/code\/(.*)/' ] | Whitelist patterns to check code styling |
-| **phpcs.ignore_patterns** | [ "Test/Unit", "Setup/Patch/Data", "Setup/Upgrade", "Setup/Install" ] | Ignore patterns |
+| **phpcs.ignore_patterns** | [ "Test/Unit", "/Test/", "Setup/Patch/Data", "Setup/Upgrade", "Setup/Install" ] | Ignore patterns |
 | **phpcs.exclude** | [ Magento2.Functions.StaticFunction, Magento2.Exceptions.DirectThrow, Magento2.Exceptions.ThrowCatch, Magento2.Commenting.ClassAndInterfacePHPDocFormatting, Magento2.Commenting.ClassPropertyPHPDocFormatting, Magento2.Commenting.ConstantsPHPDocFormatting, Magento2.Annotation.MethodAnnotationStructure, Magento2.Annotation.MethodArguments ] | Bullet list of excluded sniffs |
 | **phpcs.triggered_by** | [ php ] | Triggered by |
 
@@ -66,11 +66,11 @@ The minimal PHPStan version in your project should be `0.12.65` to ensure the `e
 | **phpstan_file** | phpstan/phpstan.neon | Relative path to PHPStan neon file |
 | **phpstan.autoload_file** | ~ | Autoload files |
 | **phpstan.configuration** | '%root_dir%%phpstan_file%' | Path to configuration file |
-| **phpstan.level** | 5 | Level of PHPstan (0-8) |
+| **phpstan.level** | 9 | Level of PHPstan (0-9) |
 | **phpstan.triggered_by** | [ 'php' ] | PHPStan triggered files |
 | **phpstan.memory_limit** | "-1" | Memory limit PHPStan uses |
 | **phpstan.use_grumphp_paths** | true | Use GrumPHP paths |
-| **phpstan.ignore_patterns** | [ "/Test/", "/Setup/", "pub/" ] | Ingore patterns |
+| **phpstan.ignore_patterns** | [ "/Test/", "/Setup/", "pub/", "app/bootstrap.php", ".php-cs-fixer.php" ] | Ingore patterns |
 
 #### PHPUNIT
 Make sure you create a `phpunit.xml` file in your project root.

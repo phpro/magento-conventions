@@ -1,4 +1,13 @@
 # Changelog
+## [0.4.2]
+### Added
+- Added `treatPhpDocTypesAsCertain: false` to the PHPStan config
+- Added `/Test/` to the default `phpcs.ignore_patterns`
+- Added `app/bootstrap.php` and `.php-cs-fixer.php` to the default `phpstan.ignore_patterns`
+
+### Changed
+- Raised the default `phpstan.level` from 5 to 9
+
 ## [0.4.1]
 ### Fixed
 - Fixed php-cs-fixer config to only search in existing directories
